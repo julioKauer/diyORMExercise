@@ -13,6 +13,31 @@ namespace CarrosSQL
 
         private Type type;
 
+        //  private string getObjectConverted(PropertyInfo pi)
+        // {
+        //     var dataType = pi.PropertyType.Name.ToLower();
+        //     if (dataType == "nullable`1") dataType = GetIntDataType(pi);
+
+        //     if (dataType == "string")
+        //         return "txt" + pi.Name + ".Text";
+        //     else if (dataType == "int")
+        //         return "int.Parse(txt" + pi.Name + ".Text)";
+        //     else if (dataType == "datetime")
+        //         return "DateTime.Parse(txt" + pi.Name + ".Text)";
+        //     else if (dataType == "int32")
+        //         return "int.Parse(txt" + pi.Name + ".Text)";
+        //     else if (dataType == "int64")
+        //         return "long.Parse(txt" + pi.Name + ".Text)";
+        //     else if (dataType == "double")
+        //         return "double.Parse(txt" + pi.Name + ".Text)";
+        //     else if (dataType == "single")
+        //         return "float.Parse(txt" + pi.Name + ".Text)";
+        //     else if (dataType == "boolean")
+        //         return "bool.Parse(txt" + pi.Name + ".Text)";
+
+        //     return "txt" + pi.Name + ".Text";
+        // }
+
         public List<ICarro> Todos()
         {
             var carros = new List<ICarro>();
@@ -29,10 +54,15 @@ namespace CarrosSQL
                     while (dr.Read())
                     {
                         var carro = (ICarro)Activator.CreateInstance(type);
-                        carro.Id = Convert.ToInt32(dr["id"]);
-                        carro.Nome = dr["nome"].ToString();
-                        carro.Ano = Convert.ToInt32(dr["ano"]);
-                        carro.Modelo = dr["modelo"].ToString();
+
+                        foreach(var pi in carro.GetType().GetProperties())
+                        {
+                            pi.SetValue(carro, dr[pi.Name]);
+                        }
+                        // carro.Id = Convert.ToInt32(dr["id"]);
+                        // carro.Nome = dr["nome"].ToString();
+                        // carro.Ano = Convert.ToInt32(dr["ano"]);
+                        // carro.Modelo = dr["modelo"].ToString();
 
                         carros.Add(carro);
                     }
