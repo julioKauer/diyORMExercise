@@ -45,11 +45,9 @@ namespace CarrosSQL
             using (MySqlConnection connection = new MySqlConnection(Program.SqlCNN))
             {
                 connection.Open();
-                var sql = $"select * from carros where tipo = @tipo limit 1000";
+                var sql = $"select * from {this.type.Name} limit 1000";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@tipo", type.Name);
-
                     var dr = command.ExecuteReader();
                     while (dr.Read())
                     {
@@ -81,12 +79,11 @@ namespace CarrosSQL
                 connection.Open();
                 if (carro.Id == 0)
                 {
-                    var sql = $"insert into carros(nome, ano, tipo, modelo)values(@nome, @ano, @tipo, @modelo)";
+                    var sql = $"insert into {this.type.Name} (nome, ano, modelo) values (@nome, @ano, @modelo)";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@nome", carro.Nome);
                         command.Parameters.AddWithValue("@ano", carro.Ano);
-                        command.Parameters.AddWithValue("@tipo", carro.GetType().Name);
                         command.Parameters.AddWithValue("@modelo", carro.Modelo);
 
 
@@ -95,13 +92,12 @@ namespace CarrosSQL
                 }
                 else
                 {
-                    var sql = $"update carros set nome = @nome, ano = @ano, tipo = @tipo, modelo = @modelo where id = @id";
+                    var sql = $"update {this.type.Name} set nome = @nome, ano = @ano, modelo = @modelo where id = @id";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@id", carro.Id);
                         command.Parameters.AddWithValue("@nome", carro.Nome);
                         command.Parameters.AddWithValue("@ano", carro.Ano);
-                        command.Parameters.AddWithValue("@tipo", carro.GetType().Name);
                         command.Parameters.AddWithValue("@modelo", carro.Modelo);
 
                         carro.Id = Convert.ToInt32(command.ExecuteScalar());
@@ -117,7 +113,7 @@ namespace CarrosSQL
             using (MySqlConnection connection = new MySqlConnection(Program.SqlCNN))
             {
                 connection.Open();
-                var sql = $"delete from carros where id = @id";
+                var sql = $"delete from {this.type.Name} where id = @id";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@id", carro.Id);

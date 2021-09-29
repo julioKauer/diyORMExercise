@@ -19,19 +19,19 @@ namespace CarrosSQL
                 Ano = 1974,
             });
 
-            repoVW.Salvar(new VW()
-            {
-                Nome = "SP2",
-                Modelo = "Coupé",
-                Ano = 1972,
-            });
+            // repoVW.Salvar(new VW()
+            // {
+            //     Nome = "SP2",
+            //     Modelo = "Coupé",
+            //     Ano = 1972,
+            // });
 
-            repoFord.Salvar(new Ford()
-            {
-                Nome = "Maverick",
-                Modelo = "GT",
-                Ano = 1972,
-            });
+            // repoFord.Salvar(new Ford()
+            // {
+            //     Nome = "Maverick",
+            //     Modelo = "GT",
+            //     Ano = 1972,
+            // });
 
 
 
